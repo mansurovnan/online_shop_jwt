@@ -9,6 +9,25 @@ from .validators import (
     validate_phone_number,
 )
 
+from rest_framework import serializers
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "phone_number",
+        ]
+        read_only_fields = ["id", "username"]
+
 User = get_user_model()
 
 

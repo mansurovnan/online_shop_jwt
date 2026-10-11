@@ -13,7 +13,7 @@ from .views import LoginView
 path("login/", LoginView.as_view(), name="login"),
 
 
-from .views import RegisterView, ProfileView, LogoutView
+from .views import RegisterView, ProfileView, LogoutView, LoginView
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
@@ -21,5 +21,6 @@ urlpatterns = [
     path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("me/", ProfileView.as_view(), name="profile"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path("login/", LoginView.as_view(), name="login"),
     path("login/", LoginView.as_view(), name="login"),
 ]

@@ -11,6 +11,19 @@ from .serializers import RegisterSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import LoginSerializer
 
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .serializers import ProfileSerializer
+
+
+class ProfileView(generics.RetrieveUpdateAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
+
+
 
 
 
