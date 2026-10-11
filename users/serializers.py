@@ -3,14 +3,37 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
+from .validators import (
+    validate_username,
+    validate_email_regex,
+    validate_phone_number,
+)
+
 User = get_user_model()
 
 
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(
+        min_length=3,
+        max_length=30,
+        validators=[validate_username],
+    )
+
+    email = serializers.CharField(
+        validators=[validate_email_regex],
+    )
+
+    phone_number = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        validators=[validate_phone_number],
+    )
+
     password = serializers.CharField(
         write_only=True,
-        validators=[validate_password]
+        validators=[validate_password],
     )
+
     password2 = serializers.CharField(write_only=True)
 
     class Meta:
@@ -21,6 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             "email",
             "first_name",
             "last_name",
+            "phone_number",
             "password",
             "password2",
         ]
@@ -42,3 +66,16 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+
+
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+
+
+class LoginSerializer(TokenObtainPairSerializer):
+    username = serializers.RegexField(
+        regex=r"^[A-Za-z0-9_]{3,30}$",
+        error_messages={
+            "invalid": "Username formati noto'g'ri."
+        },
+    )
+

@@ -8,7 +8,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from .serializers import RegisterSerializer
 
+from rest_framework_simplejwt.views import TokenObtainPairView
+from .serializers import LoginSerializer
+
+
+
+
+
 User = get_user_model()
+
+class LoginView(TokenObtainPairView):
+    serializer_class = LoginSerializer
 
 
 class RegisterView(generics.CreateAPIView):
